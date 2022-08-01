@@ -1,0 +1,73 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: nginx
+  labels:
+        app: nginx
+        version: v1
+spec:
+  replicas: 3
+  selector:
+      matchLabels:
+        app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+        version: v1
+    spec:  
+      containers:
+      - name: nginx
+        image: nginx
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+          protocol: TCP
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: nginx-service
+  namespace: default
+  labels:
+    name: nginx-service
+spec:
+  type: NodePort
+  externalIPs:
+  - 192.168.0.210
+  selector:
+    app: nginx
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+    nodePort: 31000
+    name: http          
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sc-ingress
+  labels:
+    name: sc-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - pathType: Prefix
+        path: /feed
+        backend:
+          service:
+            name: feed-service
+            port: 
+              number: 3001
+      - pathType: Prefix
+        path: /auth
+        backend:
+          service:
+            name: user-service
+            port: 
+              number: 3002

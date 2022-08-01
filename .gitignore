@@ -1,0 +1,10 @@
+node_modules
+
+# Terraform
+.terraform*
+terraform.tfstate
+terraform.tfstate.backup
+*.log
+
+# k8s
+docker-secret.yaml
