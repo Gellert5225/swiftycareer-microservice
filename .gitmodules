@@ -1,6 +1,6 @@
 [submodule "services/services/user_profile_service"]
-	path = services/services/user_profile_service
+	path = services/user_profile_service
 	url = https://github.com/Gellert5225/sc-user-profile-service.git
 [submodule "services/services/feed_service"]
-	path = services/services/feed_service
+	path = services/feed_service
 	url = https://github.com/Gellert5225/sc-feed-service.git
