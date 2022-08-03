@@ -4,3 +4,6 @@
 [submodule "services/services/feed_service"]
 	path = services/feed_service
 	url = https://github.com/Gellert5225/sc-feed-service.git
+[submodule "services/docs"]
+	path = services/docs
+	url = https://github.com/Gellert5225/sc-doc.git
