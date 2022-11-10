@@ -5,7 +5,59 @@ metadata:
   labels:
     name: sc-ingress
   annotations:
+    nginx.ingress.kubernetes.io/auth-snippet: |
+      set $jwt $cookie_JWT;
+      proxy_set_header Authorization "Bearer ${jwt}";
+    nginx.ingress.kubernetes.io/auth-url: http://auth-service.default.svc.cluster.local:3000/
     nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      # Redirect auth errors to custom named locations
+      error_page 401 = @ingress_service_custom_error_401;
+      error_page 500 = @ingress_service_custom_error_500;
+
+      # Grab data from auth error response
+      auth_request_set $auth_error $upstream_http_auth_error;
+      auth_request_set $auth_error_content_type $upstream_http_content_type;
+      auth_request_set $auth_status $upstream_status;
+
+    nginx.ingress.kubernetes.io/server-snippet: |
+      location @ingress_service_custom_error_401 {
+        internal;
+
+        # Decode auth response header
+        # set_decode_base64 $auth_error_decoded $auth_error;
+
+        # Return the error from auth service if any
+        if ($auth_error != ""){
+          add_header Content-Type $auth_error_content_type always;
+          return 401 $auth_error;
+        }
+
+        # Fall back to default nginx response
+        return 401;
+      }
+
+      location @ingress_service_custom_error_500 {
+        internal;
+
+        # Decode auth response header
+        set_decode_base64 $auth_error_decoded $auth_error;
+
+        # Return the error from auth service if any
+        if ($auth_error_decoded != ""){
+          add_header Content-Type $auth_error_content_type always;
+          return 500 $auth_error_decoded;
+        }
+
+        # Return a hardcoded error in case no auth pods are available
+        if ($auth_status = 503){
+          add_header Content-Type application/json always;
+          return 503 "{\"msg\":\"auth service is unavailable\"}";
+        }
+
+        # Fall back to default nginx response
+        return 500;
+      }
 spec:
   ingressClassName: nginx
   rules:
@@ -19,9 +71,16 @@ spec:
             port: 
               number: 3001
       - pathType: Prefix
-        path: /auth(/|$)(.*)
+        path: /user(/|$)(.*)
         backend:
           service:
             name: user-service
             port: 
               number: 3002
+      - pathType: Prefix
+        path: /docs(/|$)(.*)
+        backend:
+          service:
+            name: docs-service
+            port:
+              number: 4567

@@ -1,0 +1,12 @@
+version: "3"
+services:
+  user-profile:
+    build: 
+      context: .
+      args: 
+        NODE_ENV: dev
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=dev

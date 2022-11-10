@@ -65,7 +65,7 @@ spec:
             port: 
               number: 3001
       - pathType: Prefix
-        path: /auth
+        path: /user
         backend:
           service:
             name: user-service

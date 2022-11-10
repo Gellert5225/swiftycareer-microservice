@@ -1,0 +1,10 @@
+version: "3"
+services:
+  auth:
+    image: gellert5225/sc-auth:latest
+    container_name: sc-auth
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000

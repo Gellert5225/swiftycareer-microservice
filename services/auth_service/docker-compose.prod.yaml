@@ -1,0 +1,10 @@
+version: "3"
+services:
+  user-profile:
+    build: 
+        context: .
+        args: 
+          NODE_ENV: prod
+    environment:
+      - NODE_ENV=prod
+    command: node src/server/index.js
