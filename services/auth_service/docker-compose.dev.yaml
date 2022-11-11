@@ -1,6 +1,6 @@
 version: "3"
 services:
-  user-profile:
+  auth:
     build: 
       context: .
       args: 
@@ -10,3 +10,6 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=dev
+      - MONGODB_URI=mongodb://swiftycareer_dev:swiftycareer@23.242.50.55:27017/?authSource=admin
+      - JWT_SECRET=1304b28485f34eacb1bed092f62d84e6
+      - JWT_REFRESH_EXP=600

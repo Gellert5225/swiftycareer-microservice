@@ -5,12 +5,14 @@ metadata:
   labels:
     name: sc-ingress
   annotations:
-    nginx.ingress.kubernetes.io/auth-snippet: |
-      set $jwt $cookie_JWT;
-      proxy_set_header Authorization "Bearer ${jwt}";
-    nginx.ingress.kubernetes.io/auth-url: http://auth-service.default.svc.cluster.local:3000/
+    nginx.ingress.kubernetes.io/affinity: cookie
+    nginx.ingress.kubernetes.io/auth-url: http://auth-service.default.svc.cluster.local:3000/verifyToken
     nginx.ingress.kubernetes.io/rewrite-target: /$2
     nginx.ingress.kubernetes.io/configuration-snippet: |
+      auth_request_set    $auth_cookie $upstream_http_authorization;
+      add_header          Set-Cookie $auth_cookie;
+      proxy_set_header    Authorization $auth_cookie;
+
       # Redirect auth errors to custom named locations
       error_page 401 = @ingress_service_custom_error_401;
       error_page 500 = @ingress_service_custom_error_500;
@@ -63,6 +65,13 @@ spec:
   rules:
   - http:
       paths:
+      - pathType: Prefix
+        path: /auth(/|$)(.*)
+        backend:
+          service:
+            name: auth-service
+            port: 
+              number: 3000
       - pathType: Prefix
         path: /feed(/|$)(.*)
         backend:
