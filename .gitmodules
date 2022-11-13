@@ -7,3 +7,6 @@
 [submodule "services/docs"]
 	path = services/docs
 	url = https://github.com/Gellert5225/sc-doc.git
+[submodule "services/services/auth_service"]
+	path = services/auth_service
+	url = https://github.com/Gellert5225/sc-auth-service
