@@ -55,17 +55,6 @@ verifyToken = (req, res, next) => {
     }
 }
 
-function decodeToken(token) {
-    if (!token) {
-        return null;
-    }
-
-    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-        if (err) return null;
-        return decoded;
-    });
-}
-
 isAdmin = (req, res, next) => {
     User.findById(req.userId).exec((err, user) => {
         if (err) {
