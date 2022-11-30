@@ -80,6 +80,8 @@ sudo ufw allow 6443/tcp
 
 # create master node
 sudo kubeadm init --apiserver-advertise-address=192.168.122.11 --pod-network-cidr=10.244.0.0/16
+# to get the command
+# kubeadm token create --print-join-command
 
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config

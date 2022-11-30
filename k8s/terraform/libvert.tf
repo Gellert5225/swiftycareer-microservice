@@ -3,7 +3,7 @@ resource "libvirt_volume" "swiftycareer-k8s-cluster" {
   count   = var.hosts
   name    = "${var.nodes[count.index]}"
   pool    = "default" # List storage pools using virsh pool-list
-  source  = "https://cloud-images.ubuntu.com/releases/server/22.04/release-20220622/ubuntu-22.04-server-cloudimg-amd64.img"
+  source  = "https://cloud-images.ubuntu.com/releases/server/22.04/release-20221117/ubuntu-22.04-server-cloudimg-amd64.img"
   format  = "qcow2"
 }
 

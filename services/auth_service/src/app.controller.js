@@ -6,7 +6,6 @@ module.exports = function(app) {
 		var upstreamURL = req.headers['x-auth-request-redirect'];
 		var splitedUrl = upstreamURL.split('/');   
 		var lastPath = splitedUrl[splitedUrl.length - 1];
-		console.log(lastPath);
 		if (lastPath === 'signin' || lastPath === 'signup' || lastPath === 'signout') {
 			res.status(200).send('continue');
 		} else {
