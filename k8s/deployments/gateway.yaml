@@ -83,14 +83,14 @@ spec:
   - http:
       paths:
       - pathType: Prefix
-        path: /feed(/|$)(.*)
+        path: /feeds(/|$)(.*)
         backend:
           service:
             name: feed-service
             port: 
               number: 3001
       - pathType: Prefix
-        path: /user(/|$)(.*)
+        path: /users(/|$)(.*)
         backend:
           service:
             name: user-service
