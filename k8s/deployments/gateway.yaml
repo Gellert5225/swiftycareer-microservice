@@ -97,9 +97,24 @@ spec:
             port: 
               number: 3002
       - pathType: Prefix
+        path: /files(/|$)(.*)
+        backend:
+          service:
+            name: file-service
+            port:
+              number: 3003
+      - pathType: Prefix
+        path: /jobs(/|$)(.*)
+        backend:
+          service:
+            name: job-service
+            port:
+              number: 3004
+      - pathType: Prefix
         path: /docs(/|$)(.*)
         backend:
           service:
             name: docs-service
             port:
               number: 4567
+        

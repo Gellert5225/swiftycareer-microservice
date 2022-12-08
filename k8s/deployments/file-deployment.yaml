@@ -1,43 +1,41 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: auth
+  name: file
   labels:
-    app: auth
+    app: file
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: auth
+      app: file
   template:
     metadata:
       labels:
-        app: auth
+        app: file
     spec:
       imagePullSecrets:
         - name: registry-key
       containers:
-      - name: auth
-        image: gellert5225/sc-auth:latest
+      - name: file
+        image: gellert5225/sc-file:latest
         imagePullPolicy: Always
         ports:
-        - containerPort: 3000
+        - containerPort: 3003
         env:
         - name: MONGODB_URI
           value: mongodb://swiftycareer_dev:swiftycareer@23.242.50.55:27017/?authSource=admin
         - name: JWT_SECRET
           value: 1304b28485f34eacb1bed092f62d84e6
-        - name: NODE_ENV
-          value: dev
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: auth-service
+  name: file-service
 spec:
   selector:
-    app: auth
+    app: file
   ports:
   - protocol: TCP
-    port: 3000
-    targetPort: 3000
+    port: 3003
+    targetPort: 3003

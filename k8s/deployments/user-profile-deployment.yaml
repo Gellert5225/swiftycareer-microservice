@@ -29,6 +29,8 @@ spec:
           value: 1304b28485f34eacb1bed092f62d84e6
         - name: JWT_REFRESH_EXP
           value: "600"
+        - name: NODE_ENV
+          value: dev
 ---
 apiVersion: v1
 kind: Service

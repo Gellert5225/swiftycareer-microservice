@@ -13,7 +13,6 @@ require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` })
 
 verifyToken = (req, res, next) => {
     let token = req.cookies.user_jwt;
-    console.log(token);
     if (!token) {
         let jsonString = JSON.stringify({ 
             code: 401, 

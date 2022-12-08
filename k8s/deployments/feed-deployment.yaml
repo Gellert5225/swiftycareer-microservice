@@ -27,6 +27,8 @@ spec:
           value: mongodb://swiftycareer_dev:swiftycareer@23.242.50.55:27017/?authSource=admin
         - name: JWT_SECRET
           value: 1304b28485f34eacb1bed092f62d84e6
+        - name: NODE_ENV
+          value: dev
 ---
 apiVersion: v1
 kind: Service

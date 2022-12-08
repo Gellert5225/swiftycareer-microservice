@@ -1,27 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: auth
+  name: job
   labels:
-    app: auth
+    app: job
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: auth
+      app: job
   template:
     metadata:
       labels:
-        app: auth
+        app: job
     spec:
       imagePullSecrets:
         - name: registry-key
       containers:
-      - name: auth
-        image: gellert5225/sc-auth:latest
+      - name: job
+        image: gellert5225/sc-job:latest
         imagePullPolicy: Always
         ports:
-        - containerPort: 3000
+        - containerPort: 3004
         env:
         - name: MONGODB_URI
           value: mongodb://swiftycareer_dev:swiftycareer@23.242.50.55:27017/?authSource=admin
@@ -33,11 +33,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: auth-service
+  name: job-service
 spec:
   selector:
-    app: auth
+    app: job
   ports:
   - protocol: TCP
-    port: 3000
-    targetPort: 3000
+    port: 3004
+    targetPort: 3004
