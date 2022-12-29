@@ -15,4 +15,4 @@
 	url = https://github.com/Gellert5225/sc-file-service
 [submodule "services/services/job_service"]
 	path = services/job_service
-	url = https://github.com/Gellert5225/sc-job-service
+	url = https://github.com/Gellert5225/sc-job-service.git

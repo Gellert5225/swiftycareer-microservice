@@ -90,10 +90,6 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 wget https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 kubectl apply -f kube-flannel.yml 
 
-# sudo iptables -I FORWARD -o virbr0 -d  192.168.122.99 -p tcp --dport 22 -j ACCEPT
-# sudo iptables -t nat -I PREROUTING -p tcp --dport 22221 -j DNAT --to 192.168.122.99:22
-# kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.3.0/deploy/static/provider/baremetal/deploy.yaml
-
 ## docker
 sudo mkdir -p /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
@@ -102,3 +98,13 @@ echo \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli docker-compose-plugin
+
+# sudo iptables -I FORWARD -o virbr0 -d  192.168.122.99 -p tcp --dport 22 -j ACCEPT
+# sudo iptables -t nat -I PREROUTING -p tcp --dport 22221 -j DNAT --to 192.168.122.99:22
+
+# To configure ingress:
+# $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.3.0/deploy/static/provider/baremetal/deploy.yaml
+# $ kubectl get pods --namespace ingress-nginx
+# $ kubectl get service ingress-nginx-controller --namespace=ingress-nginx
+
+# kubectl create secret docker-registry my-secret --docker-server=DOCKER_REGISTRY_SERVER --docker-username=DOCKER_USER --docker-password=DOCKER_PASSWORD --docker-email=DOCKER_EMAIL
